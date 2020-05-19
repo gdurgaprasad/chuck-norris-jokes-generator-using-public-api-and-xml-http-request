@@ -9,20 +9,21 @@ function generateJokes(e) {
     const xhr = new XMLHttpRequest();
     xhr.open(
       "GET",
-      `https://api.icndb.com/jokes/random/${numberOfJokes.value}`
+      `https://api.icndb.com/jokes/random/${numberOfJokes.value}`,
+      true
     );
 
-    xhr.onload = function() {
+    xhr.onload = function () {
+      let output = "";
       if (this.status === 200) {
         const response = JSON.parse(this.response);
-        let output = "";
-        if (response.type == "success") {
-          response.value.forEach(joke => {
+        if (response.type === "success") {
+          response.value.forEach((joke) => {
             output += `<li class="list-group-item">${joke.joke}</li>`;
           });
         }
       } else {
-        output += "<li>something went wrong</li>";
+        output += `<li class="list-group-item">Something went wrong</li>`;
       }
       ul.innerHTML = output;
     };
